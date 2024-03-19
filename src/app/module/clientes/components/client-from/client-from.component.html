@@ -1,0 +1,87 @@
+<!-- <div class="px-3 py-5 md:px-6 lg:px-12" content> -->
+<div class="surface-card p-3 shadow-2 border-round">
+
+
+  <div class="card ">
+
+    <app-title [title]="title" [_button]="false" />
+    <br>
+
+    <form [formGroup]="_formClient">
+      <div class="flex flex-column md:flex-row gap-2">
+        <div class="input-container">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-user"></i>
+            </span>
+            <input pInputText formControlName="nombres" placeholder="Nombres y Apellidos" />
+          </div>
+          <div class="error-message" *ngIf="validField('nombres')">
+            {{ getErrorMessage("nombres", "Nombre") }}
+          </div>
+        </div>
+
+        <div class="input-container">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-id-card"></i>
+            </span>
+            <input type="text" formControlName="cedula" pInputText placeholder="Cedula" />
+          </div>
+          <div class="error-message" *ngIf="validField('cedula')">
+            {{ getErrorMessage("cedula", "Cedula") }}
+          </div>
+        </div>
+      </div>
+
+
+      <br />
+
+
+      <div class="flex flex-column md:flex-row gap-2">
+        <div class="input-container">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-phone"></i>
+            </span>
+            <input type="text" formControlName="telefono" pInputText placeholder="Telefono Celular" />
+          </div>
+          <div class="error-message" *ngIf="validField('telefono')">
+            {{ getErrorMessage("telefono", "telefono") }}
+          </div>
+        </div>
+
+        <div class="input-container">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-at"></i></span>
+            <input type="email" formControlName="email" pInputText placeholder="Correo electronico" />
+          </div>
+          <div class="error-message" *ngIf="validField('email')">
+            {{ getErrorMessage("email", "email") }}
+          </div>
+        </div>
+      </div>
+      <br />
+
+
+      <div class="input-container">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-map-marker"></i></span>
+          <input type="text" formControlName="direccion" pInputText placeholder="Direccion" />
+        </div>
+        <div class="error-message" *ngIf="validField('direccion')">
+          {{ getErrorMessage("direccion", "direccion") }}
+        </div>
+      </div>
+      <br />
+      <br>
+      <div class="flex flex-wrap gap-3 justify-content-end">
+        <p-button label="Cancelar" styleClass="p-button-raised p-button-help" icon="pi pi-times"></p-button>
+        <p-button label="Guardar" [disabled]="!_formClient.valid" [ngClass]="{
+                  'p-button-raised p-button-success': _formClient.valid,
+                  'p-button-raised p-button-info': !_formClient.valid
+                }" styleClass="p-button-info" icon="pi pi-check" (onClick)="onSubmit()"></p-button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- </div> -->

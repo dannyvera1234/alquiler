@@ -1,0 +1,162 @@
+<!-- <app-template> -->
+    <div class="px-3 py-5 md:px-6 lg:px-12" content>
+        <div class="surface-card p-4 shadow-2 border-round">
+            <!-- <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb> -->
+
+            <br />
+            <div class="card">
+                <div class="text-3xl font-medium text-900 mb-3">
+                    {{ title }}
+                </div>
+                <div class="font-medium text-500 mb-3">
+                    Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.
+                </div>
+
+                <form [formGroup]="form">
+                    <div class="flex flex-column md:flex-row gap-2">
+                        <div class="input-container">
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon">
+                                    <i class="pi pi-user"></i>
+                                </span>
+                                <input pInputText formControlName="nombre" placeholder="Nombre" />
+                            </div>
+                            <div class="error-message" *ngIf="validField('nombre')">
+                                {{ getErrorMessage("nombre", "nombre") }}
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon">
+                                    <i class="pi pi-id-card"></i>
+                                </span>
+                                <input type="text" formControlName="descripcion" pInputText placeholder="descripcion" />
+                            </div>
+                            <div class="error-message" *ngIf="validField('descripcion')">
+                                {{ getErrorMessage("descripcion", "descripcion") }}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <!-- [options]="productTypes" -->
+                    <div class="flex flex-column md:flex-row gap-2">
+                        <div class="input-container">
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"><i class="pi pi-phone"></i>
+                                </span>
+                                <p-dropdown formControlName="tipo"  optionLabel="name"
+                                    placeholder="Seleccione el tipo"></p-dropdown>
+                            </div>
+                            <div class="error-message" *ngIf="validField('tipo')">
+                                {{ getErrorMessage("tipo", "tipo") }}
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"><i class="pi pi-at"></i></span>
+                                <input type="number" formControlName="precio" pInputText placeholder="Precio" />
+                            </div>
+                            <div class="error-message" *ngIf="validField('precio')">
+                                {{ getErrorMessage("precio", "precio") }}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="flex flex-column md:flex-row gap-2">
+                        <div class="input-container">
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"><i class="pi pi-at"></i></span>
+                                <input type="number" formControlName="cantidad" pInputText placeholder="Cantidad"
+                                    min="1" />
+                            </div>
+                            <div class="error-message" *ngIf="validField('cantidad')">
+                                {{ getErrorMessage("cantidad", "cantidad") }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-column md:flex-row gap-2 mt-3">
+                        <div class="input-container">
+                            <div class="p-inputgroup">
+                                <p-triStateCheckbox formControlName="variaciones" id="checked"
+                                    class="me-1"></p-triStateCheckbox>
+                                <label for="checked">Tiene variaciones</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <!-- Container tabla las variaciones -->
+                    <div class="card" *ngIf="hasVariations">
+                        <p-table [value]="files" #table [columns]="cols" dataKey="ide"
+                            [tableStyle]="{ 'min-width': '50rem' }">
+                            <!-- Titulo tabla -->
+                            <ng-template pTemplate="caption">
+                                <div class="flex align-items-center justify-content-between">
+                                    <span>Lista de variaciones</span>
+                                    <div>
+                                        <input type="text" formControlName="newHeader" pInputText
+                                            placeholder="Nueva propiedad" class="me-1" />
+                                        <p-button icon="pi-chevron-left" styleClass="p-button-info"
+                                            (onClick)="addProperty()"></p-button>
+                                    </div>
+                                    <p-button (onClick)="newRowVariacion()">Nueva variaci&oacute;n</p-button>
+                                </div>
+                            </ng-template>
+                            <!-- Header tabla -->
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th *ngFor="let col of columns">
+                                        {{ col.header }}
+                                        <p-button icon="pi pi-times" styleClass="p-button-danger"
+                                            (onClick)="deleteHeader(col.field)"
+                                            *ngIf="showBtnDeleteHeader(col?.field)"></p-button>
+
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <!-- Body Table -->
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr>
+
+                                    <td *ngFor="let col of columns"
+                                        [pEditableColumnDisabled]="editableColumnDisabled(col?.field)"
+                                        [pEditableColumn]="col.field" [pEditableColumnField]="col.field">
+
+                                        <p-cellEditor *ngIf="col.field !=='delete'">
+                                            <ng-template pTemplate="input">
+                                                <input pInputText [type]="typeColumn(col?.field)"
+                                                    [(ngModel)]="rowData?.data[col.field]"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [required]="isColumnRequired(col?.field)" />
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{ rowData?.data[col.field] }}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                        <!-- Button accion delete -->
+                                        <p-button *ngIf="col.field ==='delete'" styleClass="p-button-danger"
+                                            (onClick)="removeRow(rowData)">Delete</p-button>
+                                    </td>
+
+
+                                </tr>
+                            </ng-template>
+
+                        </p-table>
+
+                    </div>
+                    <div class="flex flex-wrap gap-3 justify-content-end" *ngFor="let data of data">
+                        <p-button [routerLink]="data.routerLink" label="Cancelar"
+                            styleClass="p-button-raised p-button-help" icon="pi pi-times"></p-button>
+                        <p-button label="Guardar" [disabled]="!form.valid" [ngClass]="{
+                  'p-button-raised p-button-success': form.valid,
+                  'p-button-raised p-button-info': !form.valid
+                }" styleClass="p-button-info" icon="pi pi-check" (onClick)="onSubmit()"></p-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- </app-template> -->

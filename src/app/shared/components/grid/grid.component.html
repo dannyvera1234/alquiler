@@ -1,0 +1,67 @@
+<p-table #dt dataKey="id" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+    [globalFilterFields]="[
+    'name',
+    'country.name',
+    'representative.name',
+    'status'
+  ]">
+    <ng-template pTemplate="caption">
+        <div class="table-header">
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" placeholder="Buscar" />
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            @for (column of _columnas; track $index) {
+            <th [pEditableColumn]="columns" style="min-width: 10rem">
+                <div class="flex justify-content-between align-items-center">
+                    {{ column }}
+                    <p-sortIcon [field]="column"></p-sortIcon>
+
+                </div>
+            </th>
+            }
+            <th pSortableColumn="Acciones" style="min-width: 10rem">
+                <div class="flex justify-content-between align-items-center">
+                    Acciones
+                    <p-sortIcon field="Acciones"></p-sortIcon>
+
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body">
+
+        <tr class="p-selectable-row">
+            @for (row of _rows; track $index) {
+            @for (column of _columnas; track $index) {
+            <td>
+                <span class="p-column-title">
+                    {{row[column] }}
+                </span>
+            </td>
+            }
+
+            }
+            <td>
+                @for( item of _botones; track $index ){
+                <p-button tooltipPosition="bottom" [pTooltip]="item.title" [icon]="item.icon" [severity]="item.color"
+                    [raised]="true"></p-button>
+                }
+
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">No se encontraron clientes..</td>
+        </tr>
+    </ng-template>
+</p-table>

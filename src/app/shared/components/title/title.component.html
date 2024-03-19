@@ -1,0 +1,27 @@
+<div class="grid">
+    <div class="col-12 xl:col-6">
+        @if (_title()) {
+
+            <h2 style="font-family: Georgia, 'Times New Roman', Times, serif; margin: 0;font-size: 1.7rem;" > {{title}} </h2>
+            <nz-breadcrumb [nzAutoGenerate]="true">
+            </nz-breadcrumb>
+        }
+    </div>
+    <div class="col-12 xl:col-6 mt-auto text-right">
+        @if(_button()){
+            <p-button label="Agregar" icon="pi pi-plus" styleClass="p-button-raised p-button-help" (click)="open()"
+                class="mr-2"></p-button>
+        }
+        <br>
+    </div>
+</div>
+
+
+
+
+<!-- @if(_search()){
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" placeholder="buscar" />
+        </span>
+        } -->
